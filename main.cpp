@@ -12,14 +12,14 @@ Fl_Box *imageBox;
 double zoomFactor = 1.0;
 
 void zoomIn(Fl_Widget*, void*) {
-    zoomFactor *= 1.1; // Increase zoom by 10%
+    zoomFactor *= 1.1;
     Fl_Image *scaled = originalImage->copy(originalImage->w() * zoomFactor, originalImage->h() * zoomFactor);
     imageBox->image(scaled);
     imageBox->parent()->redraw();
 }
 
 void zoomOut(Fl_Widget*, void*) {
-    zoomFactor *= 0.9; // Decrease zoom by 10%
+    zoomFactor *= 0.9;
     Fl_Image *scaled = originalImage->copy(originalImage->w() * zoomFactor, originalImage->h() * zoomFactor);
     imageBox->image(scaled);
     imageBox->parent()->redraw();
@@ -30,12 +30,12 @@ Fl_Image* rotateImage(Fl_Image *img) {
     int h = img->h();
     const uchar *in = (const uchar*)img->data()[0];
 
-    uchar *out = new uchar[w * h * 3]; // Assuming a 3-byte per pixel RGB image
+    uchar *out = new uchar[w * h * 3];
     for (int y = 0; y < h; ++y) {
         for (int x = 0; x < w; ++x) {
             int ni = (x * h + (h - y - 1)) * 3;
             int oi = (y * w + x) * 3;
-            out[ni] = in[oi];     // R
+            out[ni] = in[oi];         // R
             out[ni + 1] = in[oi + 1]; // G
             out[ni + 2] = in[oi + 2]; // B
         }
@@ -47,7 +47,7 @@ Fl_Image* rotateImage(Fl_Image *img) {
 }
 
 void rotate(Fl_Widget*, void*) {
-	Fl_Image *rotatedImage = rotateImage(currentImage);
+    Fl_Image *rotatedImage = rotateImage(currentImage);
     delete currentImage;
     currentImage = rotatedImage;
     imageBox->image(currentImage);
@@ -61,14 +61,14 @@ int main() {
         return 1;
     }
 
-    currentImage = originalImage->copy(); // Make a copy for current image
+    currentImage = originalImage->copy();
 
     int windowWidth = 800;
     int windowHeight = 600;
     Fl_Window *window = new Fl_Window(windowWidth, windowHeight, "FLTK Image Viewer");
 
     int boxWidth = 780;
-    int boxHeight = 550; // Reduce height to make room for buttons
+    int boxHeight = 550;
     imageBox = new Fl_Box(10, 10, boxWidth, boxHeight);
     imageBox->image(currentImage);
 
